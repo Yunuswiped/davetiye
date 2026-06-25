@@ -16,12 +16,178 @@
             background: linear-gradient(135deg, #fff5f7 0%, #fffaf0 50%, #fff9f0 100%);
             color: #333;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
+        /* Giriş Efekti - Davetiye Zarfı */
+        .envelope-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fff5f7 0%, #fffaf0 50%, #fff9f0 100%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeOutEnvelope 0.5s ease-out forwards 3.5s;
+        }
+
+        .envelope {
+            width: 300px;
+            height: 200px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(135deg, #d4af37, #e6c200);
+            border-radius: 5px 5px 0 0;
+            transform-origin: top;
+            animation: flapOpen 1.5s ease-out 0.5s forwards;
+            box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .envelope-flap::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+            border-radius: 5px 5px 0 0;
+        }
+
+        .envelope-flap::after {
+            content: '💍';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            animation: fadeInHeart 0.5s ease-out 1.2s forwards;
+            opacity: 0;
+        }
+
+        .envelope-body {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: white;
+            border-radius: 0 0 5px 5px;
+            border-top: 2px dashed #d4af37;
+        }
+
+        .letter {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 280px;
+            height: 160px;
+            background: linear-gradient(135deg, #fff5f7, #fffaf0);
+            border-radius: 3px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            opacity: 0;
+            animation: letterPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.8s forwards;
+            z-index: 10;
+        }
+
+        .letter-text {
+            font-size: 0.9em;
+            color: #c94b6d;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .letter-decor {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes flapOpen {
+            0% {
+                transform: rotateX(0deg);
+            }
+            100% {
+                transform: rotateX(-160deg);
+            }
+        }
+
+        @keyframes letterPop {
+            0% {
+                transform: translate(-50%, -50%) scale(0.3);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInHeart {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        @keyframes fadeOutEnvelope {
+            from {
+                opacity: 1;
+                visibility: visible;
+            }
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        /* Ana İçerik */
         .container {
             max-width: 900px;
             margin: 0 auto;
             padding: 20px;
+            animation: fadeIn 0.8s ease-out 4s forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         header {
@@ -266,6 +432,17 @@
             .family-section {
                 padding: 25px;
             }
+
+            .envelope {
+                width: 250px;
+                height: 170px;
+            }
+
+            .letter {
+                width: 230px;
+                height: 130px;
+                padding: 15px;
+            }
         }
 
         footer {
@@ -274,33 +451,6 @@
             color: #999;
             font-size: 0.9em;
             margin-top: 40px;
-        }
-
-        .heart-animation {
-            display: inline-block;
-            animation: heartbeat 1.5s infinite;
-        }
-
-        @keyframes heartbeat {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
-            }
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.8;
-            }
         }
 
         .youtube-container {
@@ -317,6 +467,21 @@
     </style>
 </head>
 <body>
+    <!-- Giriş Efekti - Davetiye Zarfı -->
+    <div class="envelope-wrapper">
+        <div class="envelope">
+            <div class="envelope-flap"></div>
+            <div class="envelope-body">
+                <div class="letter">
+                    <div class="letter-decor">💌</div>
+                    <div class="letter-text">Davetiye Açılıyor...</div>
+                    <div class="letter-decor">✨</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ana İçerik -->
     <div class="container">
         <header>
             <div class="decorative-line"></div>
@@ -483,11 +648,11 @@
             }, 500);
         }
 
-        // Sayfa yüklendiğinde müziği otomatik başlat
+        // Sayfa yüklendiğinde müziği otomatik başlat (zarf kapandıktan sonra)
         window.addEventListener('load', function() {
             setTimeout(() => {
                 toggleMusic();
-            }, 1000);
+            }, 4000);
         });
     </script>
 </body>
