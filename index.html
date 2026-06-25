@@ -74,6 +74,38 @@
             font-style: italic;
         }
 
+        .music-control {
+            margin-top: 20px;
+        }
+
+        .music-button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #d4af37, #e6c200);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .music-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .music-button:active {
+            transform: scale(0.98);
+        }
+
+        .music-icon {
+            font-size: 1.2em;
+        }
+
         .events {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -270,6 +302,18 @@
                 opacity: 0.8;
             }
         }
+
+        .youtube-container {
+            display: none;
+            margin: 20px 0;
+        }
+
+        .youtube-iframe {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -286,6 +330,22 @@
             </div>
             
             <p class="invitation-text">Hayatımızın en özel günümüzde sizleri aramızda görmekten mutluluk duyacağız</p>
+            
+            <div class="music-control">
+                <button class="music-button" onclick="toggleMusic()">
+                    <span class="music-icon">🎵</span>
+                    <span id="musicButtonText">Müziği Aç</span>
+                </button>
+            </div>
+
+            <div class="youtube-container" id="youtubeContainer">
+                <iframe class="youtube-iframe" 
+                        id="youtubeIframe"
+                        src="https://www.youtube.com/embed/UK1W7PEnFBs?autoplay=0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                </iframe>
+            </div>
         </header>
 
         <div class="events">
@@ -369,11 +429,66 @@
     </footer>
 
     <script>
+        let musicPlaying = false;
+        let volumeIncreasing = false;
+
         function openMap(location) {
             const encodedLocation = encodeURIComponent(location);
             const googleMapsUrl = `https://www.google.com/maps/search/${encodedLocation}`;
             window.open(googleMapsUrl, '_blank');
         }
+
+        function toggleMusic() {
+            const container = document.getElementById('youtubeContainer');
+            const button = document.getElementById('musicButtonText');
+            const iframe = document.getElementById('youtubeIframe');
+
+            if (!musicPlaying) {
+                // Müziği aç
+                container.style.display = 'block';
+                button.textContent = 'Müziği Kapat';
+                musicPlaying = true;
+
+                // YouTube oynatıcısını yeniden yükle (autoplay ile)
+                const videoId = 'UK1W7PEnFBs';
+                iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+
+                // Ses seviyesini kısık sesten başlayıp yükselt
+                if (!volumeIncreasing) {
+                    increaseVolume();
+                }
+            } else {
+                // Müziği kapat
+                container.style.display = 'none';
+                button.textContent = 'Müziği Aç';
+                musicPlaying = false;
+                volumeIncreasing = false;
+                
+                // Video durdur
+                iframe.src = `https://www.youtube.com/embed/UK1W7PEnFBs?autoplay=0`;
+            }
+        }
+
+        function increaseVolume() {
+            volumeIncreasing = true;
+            let volume = 10;
+            
+            const volumeInterval = setInterval(() => {
+                if (volume < 100) {
+                    volume += 5;
+                } else {
+                    clearInterval(volumeInterval);
+                    volumeIncreasing = false;
+                }
+            }, 500);
+        }
+
+        // Sayfa yüklendiğinde müziği otomatik başlat
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                toggleMusic();
+            }, 1000);
+        });
     </script>
 </body>
 </html>
