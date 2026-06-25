@@ -400,8 +400,8 @@
             transform: scale(0.95);
         }
 
-        /* Gizli YouTube Player */
-        #audioPlayer {
+        /* Audio Player */
+        audio {
             display: none;
         }
 
@@ -580,15 +580,15 @@
         <span id="audioIcon">🔊</span>
     </button>
 
-    <!-- Gizli YouTube Audio Player -->
-    <iframe id="audioPlayer" 
-            src="https://www.youtube.com/embed/UK1W7PEnFBs?autoplay=0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen>
-    </iframe>
+    <!-- Audio Player -->
+    <audio id="audioPlayer" crossorigin="anonymous">
+        <source src="https://www.youtube.com/watch?v=UK1W7PEnFBs" type="audio/mpeg">
+        Tarayıcınız audio öğesini desteklemiyor.
+    </audio>
 
     <script>
         let audioPlaying = false;
+        const audio = document.getElementById('audioPlayer');
 
         function openMap(location) {
             const encodedLocation = encodeURIComponent(location);
@@ -597,17 +597,19 @@
         }
 
         function toggleAudio() {
-            const player = document.getElementById('audioPlayer');
             const icon = document.getElementById('audioIcon');
 
             if (!audioPlaying) {
                 // Müziği aç
-                player.src = 'https://www.youtube.com/embed/UK1W7PEnFBs?autoplay=1';
+                audio.play().catch(function(error) {
+                    console.log("Müzik çalma hatası:", error);
+                });
                 icon.textContent = '🔇';
                 audioPlaying = true;
             } else {
                 // Müziği kapat
-                player.src = 'https://www.youtube.com/embed/UK1W7PEnFBs?autoplay=0';
+                audio.pause();
+                audio.currentTime = 0;
                 icon.textContent = '🔊';
                 audioPlaying = false;
             }
