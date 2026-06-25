@@ -400,11 +400,6 @@
             transform: scale(0.95);
         }
 
-        /* Audio Player */
-        audio {
-            display: none;
-        }
-
         @media (max-width: 768px) {
             .events {
                 grid-template-columns: 1fr;
@@ -580,10 +575,9 @@
         <span id="audioIcon">🔊</span>
     </button>
 
-    <!-- Audio Player -->
-    <audio id="audioPlayer" crossorigin="anonymous">
-        <source src="https://www.youtube.com/watch?v=UK1W7PEnFBs" type="audio/mpeg">
-        Tarayıcınız audio öğesini desteklemiyor.
+    <!-- Audio Player - Gizli -->
+    <audio id="audioPlayer" loop>
+        <source src="https://youtu.be/UK1W7PEnFBs" type="audio/mpeg">
     </audio>
 
     <script>
