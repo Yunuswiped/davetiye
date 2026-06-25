@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selin & Muhammet - Düğün Davetiyesi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff5f7 0%, #fffaf0 50%, #fff9f0 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: linear-gradient(135deg, #ffd4e5 0%, #fff9e6 100%);
+            border-radius: 0 0 50px 50px;
+            box-shadow: 0 10px 30px rgba(255, 182, 193, 0.3);
+            margin-bottom: 40px;
+        }
+
+        .decorative-line {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            margin: 0 auto 15px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #c94b6d;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .names {
+            font-size: 1.3em;
+            color: #333;
+            margin: 20px 0;
+            font-weight: 300;
+        }
+
+        .names strong {
+            color: #d4af37;
+            font-weight: 600;
+        }
+
+        .ampersand {
+            font-size: 1.5em;
+            color: #d4af37;
+            margin: 0 10px;
+            font-style: italic;
+        }
+
+        .invitation-text {
+            font-size: 1.1em;
+            color: #666;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        .events {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: 0 5px 20px rgba(255, 182, 193, 0.2);
+            border-top: 4px solid #d4af37;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 182, 193, 0.3);
+        }
+
+        .event-card h2 {
+            color: #c94b6d;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .event-detail {
+            margin: 15px 0;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .event-detail:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #d4af37;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .detail-value {
+            color: #333;
+            font-size: 1.1em;
+            margin-top: 5px;
+        }
+
+        .map-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #d4af37, #e6c200);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .map-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .map-button:active {
+            transform: scale(0.98);
+        }
+
+        .family-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-top: 40px;
+            box-shadow: 0 5px 20px rgba(255, 182, 193, 0.2);
+            border-top: 4px solid #c94b6d;
+        }
+
+        .family-section h2 {
+            text-align: center;
+            color: #c94b6d;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .family-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .family-card {
+            background: linear-gradient(135deg, #fff5f7, #fffaf0);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #d4af37;
+            transition: transform 0.3s;
+        }
+
+        .family-card:hover {
+            transform: translateX(5px);
+        }
+
+        .family-name {
+            font-size: 1.1em;
+            color: #c94b6d;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .family-phone {
+            color: #666;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .phone-icon {
+            color: #d4af37;
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            .events {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .family-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .names {
+                font-size: 1.1em;
+            }
+
+            header {
+                padding: 40px 20px;
+            }
+
+            .event-card {
+                padding: 25px;
+            }
+
+            .family-section {
+                padding: 25px;
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 0.9em;
+            margin-top: 40px;
+        }
+
+        .heart-animation {
+            display: inline-block;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="decorative-line"></div>
+            <h1>Evlilik Davetiyesi</h1>
+            <div class="decorative-line"></div>
+            
+            <div class="names">
+                <strong>Selin Nur</strong>
+                <span class="ampersand">&</span>
+                <strong>Muhammet</strong>
+            </div>
+            
+            <p class="invitation-text">Hayatımızın en özel günümüzde sizleri aramızda görmekten mutluluk duyacağız</p>
+        </header>
+
+        <div class="events">
+            <!-- Nikah Kartı -->
+            <div class="event-card">
+                <h2>💍 Nikah Törenimiz</h2>
+                
+                <div class="event-detail">
+                    <div class="detail-label">📅 Tarih</div>
+                    <div class="detail-value">08 Ağustos 2026</div>
+                </div>
+                
+                <div class="event-detail">
+                    <div class="detail-label">🕐 Saat</div>
+                    <div class="detail-value">14:30</div>
+                </div>
+                
+                <div class="event-detail">
+                    <div class="detail-label">📍 Mekan</div>
+                    <div class="detail-value">
+                        Bahçelievler Belediyesi<br>Kongre ve Nikah Sarayı<br>İstanbul
+                    </div>
+                </div>
+
+                <button class="map-button" onclick="openMap('Istanbul Bahcelievler Belediyesi Kongre ve Nikah Sarayi')">
+                    📍 Haritada Gör
+                </button>
+            </div>
+
+            <!-- Düğün Kartı -->
+            <div class="event-card">
+                <h2>🎉 Düğün Davetimiz</h2>
+                
+                <div class="event-detail">
+                    <div class="detail-label">📅 Tarih</div>
+                    <div class="detail-value">11 Eylül 2026</div>
+                </div>
+                
+                <div class="event-detail">
+                    <div class="detail-label">🕐 Saat</div>
+                    <div class="detail-value">18:00 - 24:00</div>
+                </div>
+                
+                <div class="event-detail">
+                    <div class="detail-label">📍 Mekan</div>
+                    <div class="detail-value">
+                        Manyas Belediyesi<br>Düğün Salonu<br>Balıkesir
+                    </div>
+                </div>
+
+                <button class="map-button" onclick="openMap('Manyas Belediyesi Dugun Salonu Balikesir')">
+                    📍 Haritada Gör
+                </button>
+            </div>
+        </div>
+
+        <div class="family-section">
+            <h2>📞 İletişim</h2>
+            <div class="family-grid">
+                <div class="family-card">
+                    <div class="family-name">Tahsin Erdoğdu</div>
+                    <div class="family-phone">
+                        <span class="phone-icon">☎️</span>
+                        <a href="tel:+905383483012" style="color: #666; text-decoration: none;">0538 348 30 12</a>
+                    </div>
+                </div>
+
+                <div class="family-card">
+                    <div class="family-name">Halil Çetin</div>
+                    <div class="family-phone">
+                        <span class="phone-icon">☎️</span>
+                        <a href="tel:+905373040728" style="color: #666; text-decoration: none;">0537 304 07 28</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Sevgiyle davet ediyoruz ✨</p>
+    </footer>
+
+    <script>
+        function openMap(location) {
+            const encodedLocation = encodeURIComponent(location);
+            const googleMapsUrl = `https://www.google.com/maps/search/${encodedLocation}`;
+            window.open(googleMapsUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
