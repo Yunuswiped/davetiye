@@ -17,6 +17,59 @@
             color: #333;
             line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Yapraklar - Arka Plan Animasyonu */
+        .falling-leaves {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .leaf {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            opacity: 0.7;
+            animation: fall linear infinite;
+        }
+
+        .leaf::before {
+            content: '🍂';
+            position: absolute;
+            font-size: 2.5em;
+            filter: hue-rotate(20deg) saturate(1.2);
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotateZ(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(100vh) rotateZ(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes sway {
+            0%, 100% {
+                transform: translateX(0px);
+            }
+            50% {
+                transform: translateX(30px);
+            }
         }
 
         /* Giriş Efekti - Davetiye Zarfı */
@@ -179,6 +232,8 @@
             padding: 20px;
             animation: fadeIn 0.8s ease-out 4s forwards;
             opacity: 0;
+            position: relative;
+            z-index: 2;
         }
 
         @keyframes fadeIn {
@@ -460,6 +515,9 @@
     </style>
 </head>
 <body>
+    <!-- Yapraklar Arka Planı -->
+    <div class="falling-leaves" id="fallingLeavesContainer"></div>
+
     <!-- Giriş Efekti - Davetiye Zarfı -->
     <div class="envelope-wrapper">
         <div class="envelope">
@@ -575,14 +633,18 @@
         <span id="audioIcon">🔊</span>
     </button>
 
-    <!-- Audio Player - Gizli -->
-    <audio id="audioPlayer" loop>
-        <source src="https://youtu.be/UK1W7PEnFBs" type="audio/mpeg">
-    </audio>
+    <!-- Spotify Embed -->
+    <iframe id="spotifyPlayer" 
+            style="display:none; border-radius:12px" 
+            src="https://open.spotify.com/embed/track/5Cjs5q9HXxbGLag9IxeYjK?utm_source=generator" 
+            width="100%" 
+            height="152" 
+            frameBorder="0" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+    </iframe>
 
     <script>
         let audioPlaying = false;
-        const audio = document.getElementById('audioPlayer');
 
         function openMap(location) {
             const encodedLocation = encodeURIComponent(location);
@@ -592,25 +654,50 @@
 
         function toggleAudio() {
             const icon = document.getElementById('audioIcon');
+            const player = document.getElementById('spotifyPlayer');
 
             if (!audioPlaying) {
                 // Müziği aç
-                audio.play().catch(function(error) {
-                    console.log("Müzik çalma hatası:", error);
-                });
+                player.style.display = 'block';
                 icon.textContent = '🔇';
                 audioPlaying = true;
             } else {
                 // Müziği kapat
-                audio.pause();
-                audio.currentTime = 0;
+                player.style.display = 'none';
                 icon.textContent = '🔊';
                 audioPlaying = false;
             }
         }
 
-        // Sayfa yüklendiğinde müziği otomatik başlat (zarf kapandıktan sonra)
+        // Yapraklar animasyonunu başlat
+        function createFallingLeaves() {
+            const container = document.getElementById('fallingLeavesContainer');
+            const leafCount = 6; // Az sayıda yaprak
+
+            for (let i = 0; i < leafCount; i++) {
+                const leaf = document.createElement('div');
+                leaf.classList.add('leaf');
+                
+                // Random konumlar
+                const randomLeft = Math.random() * 100;
+                const randomDelay = Math.random() * 15;
+                const randomDuration = 12 + Math.random() * 8;
+                const randomSwayDuration = 3 + Math.random() * 2;
+
+                leaf.style.left = randomLeft + '%';
+                leaf.style.animationDelay = randomDelay + 's';
+                leaf.style.animationDuration = randomDuration + 's';
+                leaf.style.animation = `fall ${randomDuration}s linear infinite, sway ${randomSwayDuration}s ease-in-out infinite`;
+
+                container.appendChild(leaf);
+            }
+        }
+
+        // Sayfa yüklendiğinde yaprakları oluştur
         window.addEventListener('load', function() {
+            createFallingLeaves();
+            
+            // Müziği otomatik başlat (4 saniye sonra)
             setTimeout(() => {
                 toggleAudio();
             }, 4000);
